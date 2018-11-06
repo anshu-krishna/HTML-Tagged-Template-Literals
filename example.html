@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>Tagged Literals Test</title>
+	<script type="text/javascript" src="html-tagged-template-literal.js"></script>
+	<style>
+		details {
+			margin-bottom: 20px;
+		}
+		summary {
+			cursor: pointer;
+			color: white;
+			background: #121212;
+		}
+		details > summary, details > div.contents {
+			display: grid;
+			grid-template-columns: auto 1fr;
+			grid-gap: 10px;
+			align-items: center;
+		}
+		div, summary {
+			padding: 10px 15px;
+			border: 1px solid black;
+		}
+		.blue {
+			color: blue;
+		}
+		.bold {
+			font-weight: bold;
+		}
+		#test, #test2 {
+			background: #a4a4a4;
+		}
+	</style>
+</head>
+
+<body>
+	<script type="text/javascript">
+		let test_nodes = [
+			HTML("div")`${
+				HTML("a", { href: "#" })`Test 1 <strong>OK</strong>`
+				}<br />${
+				HTML("button", {
+					onclick: `alert('Hello World');`,
+					style: "cursor: pointer;"
+				})`Hello World`
+				}`,
+
+			HTML("div")`<b>Hello <i>World</i></b>`,
+
+			HTML('div')`${[HTML('b')`Hello`, ' ', HTML('i')`World`]}`,
+
+			HTML("div")`${12345}<br />${true}`,
+
+			HTML("div")``,
+
+			HTML("div")`<strong>${HTML("span", { style: "color:red;" })`Inside`} Outside</strong>`,
+
+			HTML("div.blue")`Class Test`,
+
+			HTML("div.bold")`Class Test`,
+
+			HTML("div.blue.bold")`Class Test`,
+
+			HTML("div#test")`ID Test`,
+
+			HTML("div#test2.blue.bold")`ID-Class Test`,
+
+			HTML('div')`${HTML('header.myclass')`<strong>Days of the week</strong>`}
+				The days are called
+				<ul>${
+					['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(day => HTML('li')`${day}`)
+				}</ul>`,
+		];
+		for (let node of test_nodes) {
+			document.body.appendChild(HTML('details', { open: '' })`<summary><strong>Generated Code:</strong><code>${document.createTextNode(node.outerHTML)}</code></summary>
+				<div class="contents"><strong>DOM:</strong>${node}</div>`);
+		}
+	</script>
+</body>
+
+</html>
