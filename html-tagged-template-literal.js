@@ -1,5 +1,5 @@
 /*
-File: HTML Tagged Literals.js
+File: HTML Tagged Template Literals.js
 Author: Anshu Krishna
 Contact: anshu.krishna5@gmail.com
 Date: 03-Nov-2018
