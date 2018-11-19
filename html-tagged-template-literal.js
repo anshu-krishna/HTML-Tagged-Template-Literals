@@ -50,9 +50,6 @@ function HTML(tagString, attrs = {}) {
 	return (strings, ...exprs) => {
 		let placeholders = `<span data-thisIsInternalPlaceholder=""></span>`;
 		node.innerHTML = strings.join(placeholders);
-		console.log(strings.join(placeholders));
-		console.log(node.innerHTML);
-		console.log();
 		placeholders = node.querySelectorAll(`span[data-thisIsInternalPlaceholder]`);
 		let len = placeholders.length;
 		for (let i = 0; i < len; i++) {
