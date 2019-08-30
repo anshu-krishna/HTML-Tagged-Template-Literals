@@ -2,7 +2,7 @@
 File: HTML Tagged Template Literals.js
 Author: Anshu Krishna
 Contact: anshu.krishna5@gmail.com
-Date: 03-Nov-2018
+Date: 29-Aug-2019
 */
 function HTML(tagString, attrs = {}) {
 	let nodeData = { tag: 'div', id: null, classes: [] };
@@ -34,8 +34,12 @@ function HTML(tagString, attrs = {}) {
 			}
 		}
 	} while (false);
-
-	let node = document.createElement(nodeData.tag);
+	let node;
+	if(typeof attrs.is === 'undefined') {
+		node = document.createElement(nodeData.tag);
+	} else {
+		node = document.createElement(nodeData.tag, {is: attrs.is});
+	}
 	if (nodeData.id) {
 		node.setAttribute('id', nodeData.id);
 	}
