@@ -1,81 +1,79 @@
-# HTML-Tagged-Template-Literals
-#### Using JavaScript tagged template literals for creating DOM Element trees
-The library provides a function named HTML() with syntax:
+# HTML-Tagged-Template-Literals v2
+Using JavaScript tagged template literals for creating DOM Element trees.
+#### This version is incompatible with the previous versions
+The library provides a function named `HTML()` that can be used as 'string literal tag'. It returns an HTMLElement. The string must contain a valid HTML code else `null` is returned.
+
+**Example:**
 ```javascript
-HTML(tagString, attrs = {})
-```
-The HTML function takes a tagString and an object containing attributes of the DOMElement and returns a function that can be used as the handler for a tagged template literal.
-```
-tagString = elementType[#id][.class1.class2...]
-```
-###### Examples of tagString:
- - div
- - p#my_p_id
- - span.my_class
- - div.red.highlight
- - div#content.add_border.blue_text
-### How to use:
-To create a div element
-```javascript
-let node = HTML('div#element_id.css_class1')`Element's innerHTML`;
-```
-##### Examples:
-To create
-```HTML
-<div><b>Hello</b> <i>World</i></div>
-```
-```javascript
-let node = HTML('div')`<b>Hello</b> <i>World</i>`;
-```
-The innerHTML part can also take other nodes (or an array of nodes) like
-```javascript
-let b = HTML('b')`Hello`;
-let node = HTML('div')`${b} <i>World</i>`;
-```
-```javascript
-let internalNodes = [HTML('b')`Hello`, ' ' ,HTML('i')`World`];
-let node = HTML('div')`${internalNodes}`;
-```
-Let's take another example and try to create the following form element, where the button displays the value of the input
-```HTML
-<form onsubmit="return false;">
-	<input type="number" max="100" min ="1" value="5" />
-	<button>Show value</button>
-</form>
-```
-```javascript
-let input = HTML('input', {
-    type: 'number',
-    min: 1,
-    max: 100,
-    value: 5
-})``;
-let button = HTML('button')`Show value`;
-button.addEventListener('click', () => { alert(input.value); });
-document.body.appendChild(HTML('form', { onsubmit: 'return false;' })`${input} ${button}`);
-```
-Let's create a unordered list of links
-```javascript
-let links = ['https://www.google.com', 'https://www.yahoo.com', 'https://www.bing.com'];
-let ul = HTML('ul')`${
-    links.map( url => HTML('li')`${HTML('a', { href: url, target: '_blank'})`${url}`}` )
-}`;
-document.body.appendChild(ul);
-```
-This will add the following to the document body
-```HTML
-<ul><li><a href="https://www.google.com" target="_blank">https://www.google.com</a></li><li><a href="https://www.yahoo.com" target="_blank">https://www.yahoo.com</a></li><li><a href="https://www.bing.com" target="_blank">https://www.bing.com</a></li></ul>
+let mydiv = HTML`<div>Hello World</div>`;
+/*
+Equivalent code in vanila javascript:
+
+let mydiv = document.createElement('div');
+mydiv.innerHTML = 'Hello World';
+*/
 ```
 
-**You can freely mix and match all the ways to repersent the innerHTML**
+Just like in React, the string **must** contain only one HTML tag at the top level. (It can have any number of child elements.)
+
+**Example:**
 ```javascript
-HTML('div')`${HTML('header.myclass')`<strong>Days of the week</strong>`}
-The days are called
-<ul>${
-    ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(day => HTML('li')`${day}`)
-}</ul>`;
+let a = HTML`<div>Hello World</div>`; // Valid
+
+let b = HTML`<div>
+				<p>One</p>
+				<p>Two</p>
+			</div>`; // Valid
+
+let c = HTML`<p>One</p> <p>Two</p>`; // Invalid
 ```
-The above code will generate
-```HTML
-<div><header class="myclass"><strong>Days of the week</strong></header> The days are called <ul><li>Sunday</li><li>Monday</li><li>Tuesday</li><li>Wednesday</li><li>Thursday</li><li>Friday</li><li>Saturday</li></ul></div>
+
+Javascript expressions can be a part of the HTML string.
+
+**Example:**
+```javascript
+const link = {url: 'https://www.google.com/', text: 'Link 1 - Visit Google'};
+
+const link2 = {scheme: 'https', url: 'www.google.com', text: 'Link 2 - Visit google'};
+
+
+let mylink = HTML`<a href="${link.url}" target="_blank">${link.text}</a>`;
+/*Creates:
+<a href="https://www.google.com/" target="_blank">Link 1 - Visit Google</a>
+*/
+
+
+mylink = HTML`<a href="${link2.scheme}://${link2.url}/" target="_blank">${link2.text}</a>`;
+/*Creates:
+<a href="https://www.google.com/" target="_blank">Link 2 - Visit google</a>
+*/
 ```
+
+```javascript
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+
+let mydiv = HTML`<div>
+	<strong>Days of the week:</strong>
+	<ul>
+		${days.map(day => HTML`<li>${day}</li>`)}
+	</ul>
+</div>`;
+
+
+/*Creates:
+<div>
+	<strong>Days of the week:</strong>
+	<ul>
+		<li>Sunday</li><li>Monday</li><li>Tuesday</li><li>Wednesday</li><li>Thursday</li><li>Friday</li><li>Saturday</li>
+	</ul>
+</div>
+*/
+```
+
+If the expression is a reference to a HTMLElement then it is inserted at the relevent place.\
+If the expression is an array then all the values are added sequentially.\
+If the expression is a function then it is evaluated before adding.\
+Any other type of expression is converted to a `String` before adding as a `TextNode`.
+
+See the `example.html` file for all the examples.
