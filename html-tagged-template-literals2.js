@@ -1,13 +1,13 @@
-/*
-File: HTML Tagged Template Literals 2
+/* File: HTML Tagged Template Literals 2
 Author: Anshu Krishna
 Contact: anshu.krishna5@gmail.com
-Date: 24-Oct-2019
-*/
+Date: 24-Oct-2019 */
 const HTML = (function() {
-	const placeholder = 'thisIsInternalPlaceholder';
+	const placeholder = 'this_is_internal_placeholder';
 	const pattern = new RegExp(`${placeholder}[0-9]+`, 'g');
 	const placeholderMapper = (str) => {return {replace: str, index: parseInt(str.replace(placeholder, ''))}};
+
+	const trueObject = o => typeof o === 'object' && !Array.isArray(o);
 
 	function extractTargets(ele) {
 		const ret = [];
@@ -26,6 +26,22 @@ const HTML = (function() {
 		}
 		for(let c of ele.children) {
 			for(let t of extractTargets(c)) {
+				ret.push(t);
+			}
+		}
+		return ret;
+	}
+
+	function extractAttributeTargets(ele) {
+		const ret = [];
+		for(let a of ele.attributes) {
+			const m = a.name.match(pattern);
+			if(m) {
+				ret.push({element: ele, attr: a, match: m.map(placeholderMapper)});
+			}
+		}
+		for(let c of ele.children) {
+			for(let t of extractAttributeTargets(c)) {
 				ret.push(t);
 			}
 		}
@@ -108,6 +124,30 @@ const HTML = (function() {
 					break;
 			}
 		}
+
+		let attrs = extractAttributeTargets(ele);
+		for(let item of attrs) {
+			let ele = item.element;
+			let value = item.attr.nodeValue;
+			let name = item.attr.name;
+			if(item.match.length === 1
+				&& trueObject(exps[item.match[0].index])
+				&& name.replace(item.match[0].replace, '') === '') {
+					ele.removeAttribute(name);
+					for(let [key, val] of Object.entries(exps[item.match[0].index])) {
+						ele.setAttribute(key, val);
+					}
+			} else {
+				for(let m of item.match) {
+					name = name.replace(m.replace, expToString(exps[m.index]));
+				}
+				ele.removeAttribute(item.attr.name);
+				if(name) {
+					ele.setAttribute(name, value);
+				}
+			}
+		}
+
 		ele.normalize();
 		if(ele.children.length !== 1) {
 			console.error('Invalid content in the template tag');
