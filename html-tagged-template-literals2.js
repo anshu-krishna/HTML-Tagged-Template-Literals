@@ -6,7 +6,7 @@ Date: 24-Oct-2019
 */
 const HTML = (function() {
 	const placeholder = 'thisIsInternalPlaceholder';
-	const pattern = /thisIsInternalPlaceholder[0-9]+/g;
+	const pattern = new RegExp(`${placeholder}[0-9]+`, 'g');
 	const placeholderMapper = (str) => {return {replace: str, index: parseInt(str.replace(placeholder, ''))}};
 
 	function extractTargets(ele) {
