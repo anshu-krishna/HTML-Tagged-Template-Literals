@@ -1,0 +1,7 @@
+{
+  "name": "html-tagged-template-literal",
+  "version": "3.0.0",
+  "description": "A tagged template for creating HTML elements",
+  "author": "Anshu Krishna <anshu.krishna@gmail.com>",
+  "license": "MIT"
+}

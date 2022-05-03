@@ -1,7 +1,11 @@
-# HTML-Tagged-Template-Literals v2
+# HTML-Tagged-Template-Literals [v3.0]
+
+## Installation:
+Import from: [https://cdn.jsdelivr.net/gh/anshu-krishna/HTML-Tagged-Template-Literals@3.0/html-ttl.min.js](https://cdn.jsdelivr.net/gh/anshu-krishna/HTML-Tagged-Template-Literals@3.0/html-ttl.min.js)
+
 Using JavaScript tagged template literals for creating DOM Element trees.
 #### This version is incompatible with the previous versions
-The library provides a function named `HTML()` that can be used as 'string literal tag'. It returns an HTMLElement. The string must contain a valid HTML code else `null` is returned.
+The library provides a function named `HTML()` that can be used as 'string literal tag'. It returns a `HTMLElement` | `TextNode` | `DocumentFragment`.
 
 **Example:**
 ```javascript
@@ -12,20 +16,6 @@ Equivalent code in vanila javascript:
 let mydiv = document.createElement('div');
 mydiv.innerHTML = 'Hello World';
 */
-```
-
-Just like in React, the string **must** contain only one HTML tag at the top level. (It can have any number of child elements.)
-
-**Example:**
-```javascript
-let a = HTML`<div>Hello World</div>`; // Valid
-
-let b = HTML`<div>
-                <p>One</p>
-                <p>Two</p>
-            </div>`; // Valid
-
-let c = HTML`<p>One</p> <p>Two</p>`; // Invalid
 ```
 
 Javascript expressions can be a part of the HTML string.
@@ -71,11 +61,9 @@ let mydiv = HTML`<div>
 */
 ```
 
-If the expression is a reference to a HTMLElement then it is inserted at the relevent place.\
-If the expression is an array then all the values are added sequentially.\
-If the expression is a function then it is evaluated before adding.\
+If the expression is a reference to a `HTMLElement` | `TextNode` | `DocumentFragment` then it is inserted at the relevent place.\
+If the expression is an `Array` then all the values are added sequentially.\
+If the expression is a `function` then it is evaluated before adding.\
 Any other type of expression is converted to a `String` before adding as a `TextNode`.
 
 See the `example.html` file for all the examples.
-
-[Examples-JSFiddle](https://jsfiddle.net/anshu_krishna/5Lcsuwve/2/)

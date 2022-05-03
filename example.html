@@ -3,17 +3,23 @@
 <head>
 	<meta charset="UTF-8">
 	<title>HTML Tagged Template Literals</title>
-	<script src="html-tagged-template-literals2.js"></script>
 	<style>
 		details {
 			margin-bottom: 20px;
 		}
-		summary {
+		details > summary {
+			display: grid;
+			grid-template-columns: repeat(3, max-content) 1fr;
+			grid-gap: 0.5em;
+			align-items: center;
+			padding: 0.75em 1em;
+			border: 1px solid black;
 			cursor: pointer;
 			color: white;
-			background: #121212;
+			background: #212121;
+			font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 		}
-		details > summary, details > div.contents {
+		details > div.contents {
 			display: grid;
 			grid-template-columns: auto 1fr;
 			grid-gap: 10px;
@@ -24,18 +30,19 @@
 	</style>
 </head>
 <body>
-	<script>
+	<script type="module">
+		import {HTML} from './html-ttl.min.js';
+
 		const sayHello = HTML`<button onclick="alert('Hello');">Say Hello</button>`;
-
 		const link = {url: 'https://www.google.com/', text: 'Link 1 - Visit Google'};
-
 		const link2 = {scheme: 'https', url: 'www.google.com', text: 'Link 2 - Visit google'};
-
 		const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 		const examples = [
-			HTML`<div>Hello World</div>`,
-			
+			HTML`This is a TextNode`,
+
+			HTML`<span>This has multiple elements;</span> <span>It returns a DocumentFragment</span>`,
+
 			HTML`<div><b>Hello</b> <i>World</i></div>`,
 
 			HTML`<div>${[123, 'abc']}</div>`,
@@ -60,9 +67,20 @@
 
 
 		for (let node of examples) {
-			document.body.appendChild(HTML`<details open>
-<summary><strong>HTML Code:</strong><code>${node.outerHTML}</code></summary>
-<div class="contents"><strong>Preview:</strong>${node}</div></details>`);
+			const type = Object.prototype.toString.apply(node).slice(8, -1)
+			document.body.appendChild(
+				HTML`<details open>
+					<summary>
+						<strong>Type:</strong>
+						<code>${type}</code>
+						<strong>HTML Code:</strong>
+						<code>${node?.outerHTML ?? node?.nodeValue ?? ''}</code>
+					</summary>
+					<div class="contents">
+						<strong>Preview:</strong><div>${node ?? 'ERROR'}</div>
+					</div>
+				</details>`
+			);
 		}
 	</script>
 </body>
