@@ -3,13 +3,14 @@
 
 Using JavaScript `tagged template literals` for creating DOM Element trees.
 
-The library provides a function named `HTML()` that can be used as 'string literal tag'. It returns a `HTMLElement` | `TextNode` | `DocumentFragment`.
+The library provides a function named `HTML()` that can be used as [`string template tag`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates). It returns a `HTMLElement` | `TextNode` | `DocumentFragment`.
 
 ## Installation:
 Import from: [https://cdn.jsdelivr.net/gh/anshu-krishna/HTML-Tagged-Template-Literals@3.0/html-ttl.min.js](https://cdn.jsdelivr.net/gh/anshu-krishna/HTML-Tagged-Template-Literals@3.0/html-ttl.min.js)
 ```javascript
 import { HTML } from 'https://cdn.jsdelivr.net/gh/anshu-krishna/HTML-Tagged-Template-Literals@3.0/html-ttl.min.js';
 ```
+## Examples:
 
 **Example:**
 ```javascript
