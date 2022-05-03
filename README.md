@@ -1,11 +1,15 @@
 # HTML-Tagged-Template-Literals [v3.0]
+***This version is incompatible with the previous versions.***
+
+Using JavaScript `tagged template literals` for creating DOM Element trees.
+
+The library provides a function named `HTML()` that can be used as 'string literal tag'. It returns a `HTMLElement` | `TextNode` | `DocumentFragment`.
 
 ## Installation:
 Import from: [https://cdn.jsdelivr.net/gh/anshu-krishna/HTML-Tagged-Template-Literals@3.0/html-ttl.min.js](https://cdn.jsdelivr.net/gh/anshu-krishna/HTML-Tagged-Template-Literals@3.0/html-ttl.min.js)
-
-Using JavaScript tagged template literals for creating DOM Element trees.
-#### This version is incompatible with the previous versions
-The library provides a function named `HTML()` that can be used as 'string literal tag'. It returns a `HTMLElement` | `TextNode` | `DocumentFragment`.
+```javascript
+import { HTML } from 'https://cdn.jsdelivr.net/gh/anshu-krishna/HTML-Tagged-Template-Literals@3.0/html-ttl.min.js';
+```
 
 **Example:**
 ```javascript
