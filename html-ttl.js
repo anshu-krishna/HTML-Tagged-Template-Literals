@@ -102,7 +102,7 @@ export function HTML(strings, ...exps) {
 			case 3:
 				{
 					let textNodes = item.value.split(splitPattern).map(n => document.createTextNode(n));
-					let e = item.node.parentElement;
+					let e = item.node.parentNode;
 					e.insertBefore(textNodes[0], item.node);
 					for (let i = 0, j = item.match.length; i < j; i++) {
 						let expNodes = nodify(exps[item.match[i].index]);
